@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { toJSON } = require('./plugins');
 
-const tokenSchema = mongoose.Schema(
+const messageSchema = mongoose.Schema(
   {
     sender:{
         type: String,
@@ -28,11 +28,11 @@ const tokenSchema = mongoose.Schema(
 );
 
 // add plugin that converts mongoose to json
-tokenSchema.plugin(toJSON);
+messageSchema.plugin(toJSON);
 
 /**
  * @typedef Token
  */
-const Token = mongoose.model('Token', tokenSchema);
+const Message = mongoose.model('Message', messageSchema);
 
-module.exports = Token;
+module.exports = Message;
