@@ -40,17 +40,17 @@ const getConversation = async (id) => {
  * @param {Object} updateBody
  * @returns {Promise<User>}
  */
-const updateConv = async (userId, updateBody) => {
-  const user = await getUserById(userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+const updateConversation = async (conversationId, updateBody) => {
+  const conversation = await getConversation(conversationId);
+  if (!conversation) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Conversation not found');
   }
-  if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+  if (!updateBody.lastMessage) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'No last message update sent');
   }
-  Object.assign(user, updateBody);
-  await user.save();
-  return user;
+  conversation.lastMessage = updateBody.lastMessage;
+  await conversation.save();
+  return conversation;
 };
 
 /**
@@ -68,10 +68,9 @@ const deleteConversation = async (conversationId) => {
 };
 
 module.exports = {
-  createUser,
-  queryUsers,
-  getUserById,
-  getUserByEmail,
-  updateUserById,
-  deleteUserById,
+  createConversation,
+  queryConversations,
+  getConversation,
+  updateConversation,
+  deleteConversation,
 };
