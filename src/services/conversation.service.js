@@ -3,7 +3,7 @@ const { Conversation } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
- * Create a user
+ * Create a conversation
  * @param {Object} conversationBody
  * @returns {Promise<Conversation>}
  */
