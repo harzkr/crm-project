@@ -20,7 +20,7 @@ const getAllUsers = catchAsync(async (req, res) => {
   console.log(req.user,'checking user');
   const filter = pick(req.query, ['name', 'role']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await userService.usersAndConversations(req.user._id);
+  const result = await userService.usersAndConversations(req.user.email);
   //console.log(result,'logging')
   res.send(result);
 });
