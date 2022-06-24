@@ -29,7 +29,7 @@ const queryUsers = async (filter, options) => {
 };
 
 const usersAndConversations = async (email) => {
-  console.log('checking for matches in', email);
+  //console.log('checking for matches in', email);
   const results = await User.aggregate([
     {
       $match: { email: { $ne: email } },
@@ -37,7 +37,25 @@ const usersAndConversations = async (email) => {
     {
       $lookup: {
         from: 'conversations',
-        pipeline: [{ $unwind: '$participants' }, { $match: { $expr: { $eq: ['$participants.email', email] } } }],
+        let: { checkerEmail: '$email' },
+        pipeline: [
+          {
+            $project: {
+              firstUser: { $arrayElemAt: ['$participants', 0] },
+              secondUser: { $arrayElemAt: ['$participants', 1] },
+            },
+          },
+          {
+            $match: {
+              $expr: {
+                $or: [
+                  { $and: [{ $eq: ['$firstUser.email', email] }, { $eq: ['$secondUser.email', '$$checkerEmail'] }] },
+                  { $and: [{ $eq: ['$firstUser.email', '$$checkerEmail'] }, { $eq: ['$secondUser.email', email] }] },
+                ],
+              },
+            },
+          },
+        ],
         as: 'conversations',
       },
     },
