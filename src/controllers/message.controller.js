@@ -10,11 +10,8 @@ const createMessage = catchAsync(async (req, res) => {
 });
 
 const getMessages = catchAsync(async (req, res) => {
-  console.log(req.query)
   const filter = pick(req.query, ['conversation']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-
-  console.log(filter,'checking filter');
   const result = await messageService.queryMessages(filter, options);
   res.send(result);
 });
