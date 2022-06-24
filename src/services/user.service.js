@@ -28,6 +28,34 @@ const queryUsers = async (filter, options) => {
   return users;
 };
 
+const usersAndConversations = async (userId) => {
+  const results = await User.aggregate([
+    {
+      $match: { _id: { $ne: userId } },
+    },
+    {
+      $lookup: {
+        from: 'conversations',
+        pipeline: [{ $unwind: '$participants' }, { $match: { 'participants._id': userId } }],
+        as: 'conversations',
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        name: 1,
+        email: 1,
+        conversations: 1,
+      }
+    }
+  ]);
+
+  console.log(results);
+  return results;
+  //const users = await User.paginate(filter, options);
+  //return users;
+};
+
 /**
  * Get user by id
  * @param {ObjectId} id
@@ -86,4 +114,5 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  usersAndConversations,
 };
