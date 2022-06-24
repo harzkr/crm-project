@@ -17,7 +17,6 @@ const getUsers = catchAsync(async (req, res) => {
 });
 
 const getAllUsers = catchAsync(async (req, res) => {
-  console.log(req.user,'checking user');
   const filter = pick(req.query, ['name', 'role']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await userService.usersAndConversations(req.user.email);

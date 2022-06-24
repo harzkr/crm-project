@@ -69,7 +69,6 @@ const usersAndConversations = async (email) => {
     },
   ]);
 
-  console.log(results);
   return results;
   //const users = await User.paginate(filter, options);
   //return users;
