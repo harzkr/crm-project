@@ -43,6 +43,7 @@ const usersAndConversations = async (email) => {
             $project: {
               firstUser: { $arrayElemAt: ['$participants', 0] },
               secondUser: { $arrayElemAt: ['$participants', 1] },
+              lastMessage: '$lastMessage',
             },
           },
           {
