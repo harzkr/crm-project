@@ -30,6 +30,9 @@ const createMessage = async (messageBody) => {
  */
 const queryMessages = async (filter, options) => {
   const messages = await Message.paginate(filter, options);
+  console.log(messages,'chk')
+
+  messages.results = messages.results.reverse();
   return messages;
 };
 
