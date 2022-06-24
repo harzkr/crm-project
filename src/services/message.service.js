@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
-const { getConversation, updateConversation } = require('../controllers/conversation.controller');
 const { Message } = require('../models');
 const ApiError = require('../utils/ApiError');
+const { getConversation, updateConversation } = require('./conversation.service');
 
 /**
  * Create a message
@@ -9,7 +9,7 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Message>}
  */
 const createMessage = async (messageBody) => {
-  const conversation = await getConversation(messageBody.conversation)
+  const conversation = await getConversation(messageBody.conversation);
   if (!conversation) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Conversation not found');
   }
