@@ -67,8 +67,12 @@ const usersAndConversations = async (email, options) => {
         name: 1,
         email: 1,
         conversations: 1,
+        conv_count: { $size: '$conversations' }
       },
     },
+    {   
+      $sort: {conv_count:-1} 
+    }
   ]);
 
   const results = await User.aggregatePaginate(aggregate, options)
