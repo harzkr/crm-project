@@ -83,7 +83,11 @@ const createMockUsers = () =>{
       email: faker.internet.email(),
       password: faker.random.alphaNumeric(10),
     }
-    createUser(_user);
+    try{
+      createUser(_user);
+    } catch(e){
+      console.log(e);
+    }
   }
 }
 
