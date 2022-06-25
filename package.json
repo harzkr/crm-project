@@ -26,6 +26,9 @@
     "docker:test": "docker-compose -f docker-compose.yml -f docker-compose.test.yml up",
     "prepare": "husky install"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "keywords": [
     "node",
     "node.js",
