@@ -14,6 +14,18 @@ const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 
+var whitelist = ['http://localhost:3000', 'https://crm-frontend-demo.herokuapp.com']
+
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
 const app = express();
 
 if (config.env !== 'test') {
@@ -38,8 +50,8 @@ app.use(mongoSanitize());
 app.use(compression());
 
 // enable cors
-app.use(cors());
-app.options('*', cors());
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // jwt authentication
 app.use(passport.initialize());
