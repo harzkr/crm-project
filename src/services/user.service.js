@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
+const {faker} = require('@faker-js/faker');
 
 /**
  * Create a user
@@ -77,6 +78,18 @@ const usersAndConversations = async (email, options) => {
   //return users;
 };
 
+const createMockUsers = () =>{
+  for (let i = 0; i < 100; i++) {
+    const _user = {
+      name: faker.name.firstName() + " " + faker.name.lastName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+    }
+
+    createUser(_user);
+  }
+}
+
 /**
  * Get user by id
  * @param {ObjectId} id
@@ -136,4 +149,5 @@ module.exports = {
   updateUserById,
   deleteUserById,
   usersAndConversations,
+  createMockUsers
 };

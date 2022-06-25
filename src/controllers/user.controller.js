@@ -42,6 +42,11 @@ const deleteUser = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const mockUsers = catchAsync(async (req, res) => {
+  await userService.createMockUsers();
+  res.status(httpStatus.NO_CONTENT).send();
+})
+
 module.exports = {
   createUser,
   getUsers,
@@ -49,4 +54,5 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
+  mockUsers
 };
