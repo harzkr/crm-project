@@ -74,8 +74,6 @@ const usersAndConversations = async (email, options) => {
   const results = await User.aggregatePaginate(aggregate, options)
 
   return results;
-  //const users = await User.paginate(filter, options);
-  //return users;
 };
 
 const createMockUsers = () =>{
