@@ -7,9 +7,6 @@
   "repository": "https://github.com/hagopj13/node-express-boilerplate.git",
   "author": "Hagop Jamkojian <hagopj13@gmail.com>",
   "license": "MIT",
-  "engines": {
-    "node": ">=12.0.0"
-  },
   "scripts": {
     "start": "pm2 start ecosystem.config.json --no-daemon",
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
@@ -77,10 +74,10 @@
     "swagger-ui-express": "^4.1.6",
     "validator": "^13.0.0",
     "winston": "^3.2.1",
-    "xss-clean": "^0.1.1"
+    "xss-clean": "^0.1.1",
+    "@faker-js/faker": "^7.3.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^7.3.0",
     "coveralls": "^3.0.7",
     "eslint": "^7.0.0",
     "eslint-config-airbnb-base": "^14.0.0",
