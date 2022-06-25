@@ -81,7 +81,7 @@ const createMockUsers = () =>{
     const _user = {
       name: faker.name.firstName() + " " + faker.name.lastName(),
       email: faker.internet.email(),
-      password: faker.random.alphaNumeric(10),
+      password: 'ae234567890',
     }
     try{
       createUser(_user);
