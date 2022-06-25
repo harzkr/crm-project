@@ -28,9 +28,9 @@ const queryUsers = async (filter, options) => {
   return users;
 };
 
-const usersAndConversations = async (email) => {
+const usersAndConversations = async (email, options) => {
   //console.log('checking for matches in', email);
-  const results = await User.aggregate([
+  const aggregate = User.aggregate([
     {
       $match: { email: { $ne: email } },
     },
@@ -69,6 +69,8 @@ const usersAndConversations = async (email) => {
       },
     },
   ]);
+
+  const results = await User.aggregatePaginate(aggregate, options)
 
   return results;
   //const users = await User.paginate(filter, options);
