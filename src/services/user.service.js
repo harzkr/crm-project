@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { User, Conversation, Message } = require('../models');
+const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { faker } = require('@faker-js/faker');
 const _ = require('lodash');
