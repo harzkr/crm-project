@@ -1,7 +1,8 @@
 const httpStatus = require('http-status');
-const { User } = require('../models');
+const { User, Conversation, Message } = require('../models');
 const ApiError = require('../utils/ApiError');
-const {faker} = require('@faker-js/faker');
+const { faker } = require('@faker-js/faker');
+const _ = require('lodash');
 
 /**
  * Create a user
@@ -67,33 +68,70 @@ const usersAndConversations = async (email, options) => {
         name: 1,
         email: 1,
         conversations: 1,
-        conv_count: { $size: '$conversations' }
+        conv_count: { $size: '$conversations' },
       },
     },
-    {   
-      $sort: {conv_count:-1} 
-    }
+    {
+      $sort: { conv_count: -1 },
+    },
   ]);
 
-  const results = await User.aggregatePaginate(aggregate, options)
+  const results = await User.aggregatePaginate(aggregate, options);
 
   return results;
 };
 
-const createMockUsers = () =>{
+const createMockUsers = () => {
   for (let i = 0; i < 100; i++) {
     const _user = {
-      name: faker.name.firstName() + " " + faker.name.lastName(),
+      name: faker.name.firstName() + ' ' + faker.name.lastName(),
       email: faker.internet.email(),
       password: 'ae234567890',
-    }
-    try{
+    };
+    try {
       createUser(_user);
-    } catch(e){
+    } catch (e) {
       console.log(e);
     }
   }
-}
+};
+
+const generalDataUsers = async (options) => {
+  const aggregate = User.aggregate([
+    {
+      $match: {},
+    },
+    {
+      $lookup: {
+        from: 'conversations',
+        let: { checkerEmail: '$email' },
+        pipeline: [{ $match: { $expr: { $eq: ['$participants.email', '$$checkerEmail'] } } }],
+        as: 'coversations',
+      },
+    },
+    {
+      $lookup: {
+        from: 'messages',
+        let: { checkerId: '$id' },
+        pipeline: [{ $match: { $expr: { $eq: ['$sender', '$$checkerId'] } } }],
+        as: 'messages',
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        name: 1,
+        email: 1,
+        conv_count: { $size: '$coversations' },
+        msg_count: { $size: '$messages' },
+      },
+    },
+  ]);
+
+  const results = await User.aggregatePaginate(aggregate, options);
+
+  return results;
+};
 
 /**
  * Get user by id
@@ -154,5 +192,6 @@ module.exports = {
   updateUserById,
   deleteUserById,
   usersAndConversations,
-  createMockUsers
+  createMockUsers,
+  generalDataUsers,
 };
