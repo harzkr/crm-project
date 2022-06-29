@@ -105,14 +105,22 @@ const generalDataUsers = async (options) => {
       $lookup: {
         from: 'conversations',
         let: { checkerEmail: '$email' },
-        pipeline: [{ $match: { $expr: { $eq: ['$participants.email', '$$checkerEmail'] } } }],
+        localField: 'email',
+        foreignField: 'participants.email',
+        pipeline: [{
+          $match: {
+             $expr: { $in: [ "$$checkerEmail", "$participants.email" ] }
+          }
+       }],
         as: 'coversations',
       },
     },
     {
       $lookup: {
         from: 'messages',
-        let: { checkerId: '$id' },
+        let: { checkerId: '$_id' },
+        localField: '_id',
+        foreignField: 'sender',
         pipeline: [{ $match: { $expr: { $eq: ['$sender', '$$checkerId'] } } }],
         as: 'messages',
       },
