@@ -123,6 +123,11 @@ const generalDataUsers = async (options) => {
         from: 'messages',
         localField: 'userId',
         foreignField: 'sender',
+        pipeline: [
+          {
+            $sort: { createdAt: -1 },
+          }
+        ],
         as: 'messages',
       },
     },
@@ -133,6 +138,7 @@ const generalDataUsers = async (options) => {
         email: 1,
         conv_count: { $size: '$coversations' },
         msg_count: { $size: '$messages' },
+        last_activity: { $arrayElemAt: ['$messages.createdAt', 0] },
       },
     },
   ]);
