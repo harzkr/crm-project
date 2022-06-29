@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.get('/all-users', auth(), userController.getAllUsers);
 router.get('/mock-users', userController.mockUsers);
+router.get('/general-data-users', userController.generalDataUsers);
 
 router
   .route('/')

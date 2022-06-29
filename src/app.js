@@ -14,11 +14,11 @@ const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 
-var whitelist = ['http://localhost:3000', 'https://crm-frontend-demo.herokuapp.com']
+var whitelist = ['*']
 
 var corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    if (whitelist.indexOf(origin) === -1) {
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))

@@ -46,6 +46,12 @@ const mockUsers = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 })
 
+const generalDataUsers = catchAsync(async (req, res) => {
+  const options = pick(req.query, ['sortBy', 'limit', 'page', 'name', 'email']);
+  const result = await userService.generalDataUsers(options);
+  res.send(result);
+})
+
 module.exports = {
   createUser,
   getUsers,
@@ -53,5 +59,6 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
-  mockUsers
+  mockUsers,
+  generalDataUsers
 };
