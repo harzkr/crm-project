@@ -5,7 +5,7 @@ const logger = require('./config/logger');
 const http = require('http');
 const serverInterface = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
+const io = new Server(serverInterface);
 
 let server;
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
