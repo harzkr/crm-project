@@ -18,7 +18,7 @@ const composedLog = R.compose(console.log, separator);
 
 const io = new Server(serverInterface,{
   cors: {
-    origin: "http://localhost:3000",
+    origin: process.env.FRONTEND_URL,
   }
 });
 
