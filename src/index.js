@@ -5,7 +5,11 @@ const logger = require('./config/logger');
 const http = require('http');
 const serverInterface = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(serverInterface);
+const io = new Server(serverInterface,{
+  cors: {
+    origin: "http://localhost:3000",
+  }
+});
 
 let server;
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
@@ -16,7 +20,7 @@ mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
 });
 
 io.on('connection', (socket) => {
-  console.log('a user connected',socket);
+  console.log('a user connected',socket.handshake.query);
 });
 
 const exitHandler = () => {

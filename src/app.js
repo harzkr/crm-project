@@ -14,7 +14,7 @@ const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 
-var whitelist = ['*']
+var whitelist = ['*', 'http://localhost:3000/','https://crm-frontend.herokuapp.com/'];
 
 var corsOptions = {
   origin: function (origin, callback) {
