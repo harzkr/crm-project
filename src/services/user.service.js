@@ -31,11 +31,15 @@ const queryUsers = async (filter, options) => {
 };
 
 const searchUsers = async (searchTerm) => {
-  const users = await User.find({
-    $or: [{ name: { $regex: searchTerm, $options: 'i' } }, { email: { $regex: searchTerm, $options: 'i' } }],
-  });
+  const users = await User.find(
+    {
+      $or: [{ name: { $regex: searchTerm, $options: 'i' } }, { email: { $regex: searchTerm, $options: 'i' } }],
+    },
+    { name: 1, email: 1 },
+    { limit: 10 }
+  );
   return users;
-}
+};
 
 const usersAndConversations = async (email, options) => {
   //console.log('checking for matches in', email);
@@ -133,7 +137,7 @@ const generalDataUsers = async (options) => {
         pipeline: [
           {
             $sort: { createdAt: -1 },
-          }
+          },
         ],
         as: 'messages',
       },
@@ -216,5 +220,5 @@ module.exports = {
   usersAndConversations,
   createMockUsers,
   generalDataUsers,
-  searchUsers
+  searchUsers,
 };
