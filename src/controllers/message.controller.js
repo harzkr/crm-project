@@ -3,9 +3,14 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { messageService } = require('../services');
+const theServer = require('.././index.js');
 
 const createMessage = catchAsync(async (req, res) => {
+  const iovar = theServer.getIO();
+
   const message = await messageService.createMessage(req.body);
+  
+  iovar.emit(req.body.conversation, 'fetch');
   res.status(httpStatus.CREATED).send(message);
 });
 

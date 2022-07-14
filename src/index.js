@@ -5,6 +5,7 @@ const logger = require('./config/logger');
 const http = require('http');
 const serverInterface = http.createServer(app);
 const { Server } = require("socket.io");
+
 const io = new Server(serverInterface,{
   cors: {
     origin: "http://localhost:3000",
@@ -48,3 +49,7 @@ process.on('SIGTERM', () => {
     server.close();
   }
 });
+
+module.exports.getIO = function(){
+  return io;
+}
