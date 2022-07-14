@@ -5,6 +5,16 @@ const logger = require('./config/logger');
 const http = require('http');
 const serverInterface = http.createServer(app);
 const { Server } = require("socket.io");
+const R = require('ramda');
+
+const separator = (fn, msg) => {
+  if(!msg){
+    return fn;
+  }
+  return msg + fn;
+}
+
+const composedLog = R.compose(console.log, separator);
 
 const io = new Server(serverInterface,{
   cors: {
@@ -21,7 +31,11 @@ mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
 });
 
 io.on('connection', (socket) => {
-  console.log('a user connected',socket.handshake.query);
+  composedLog(R.prop('conversationId',socket.handshake.query), 'User connected ');
+
+  socket.on("disconnect", (reason) => {
+    composedLog(`User disconnected ${reason}`);
+  });
 });
 
 const exitHandler = () => {
