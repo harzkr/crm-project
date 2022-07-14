@@ -33,7 +33,7 @@ const queryUsers = async (filter, options) => {
 const searchUsers = async (searchTerm) => {
   const users = await User.find(
     {
-      $or: [{ name: { $regex: searchTerm, $options: 'i' } }, { email: { $regex: searchTerm, $options: 'i' } }],
+      name: { $regex: searchTerm, $options: 'i' },
     },
     { name: 1, email: 1 },
     { limit: 10 }
