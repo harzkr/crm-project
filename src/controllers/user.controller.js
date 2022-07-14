@@ -17,7 +17,8 @@ const getUsers = catchAsync(async (req, res) => {
 });
 
 const searchUsers = catchAsync(async (req, res) => {
-  const result = await userService.searchUsers(req.query.name);
+  const result = await userService.searchUsers(req.body.searchTerm);
+  res.send(result);
 })
 
 const getAllUsers = catchAsync(async (req, res) => {

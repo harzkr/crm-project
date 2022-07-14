@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/all-users', auth(), userController.getAllUsers);
 router.get('/mock-users', userController.mockUsers);
 router.get('/general-data-users', userController.generalDataUsers);
-router.get('/search-users', auth(), userController.searchUsers);
+router.post('/search-users', auth(), userController.searchUsers);
 
 router
   .route('/')
