@@ -16,6 +16,10 @@ const getUsers = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const searchUsers = catchAsync(async (req, res) => {
+  const result = await userService.searchUsers(req.query.name);
+})
+
 const getAllUsers = catchAsync(async (req, res) => {
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await userService.usersAndConversations(req.user.email, options);
@@ -60,5 +64,6 @@ module.exports = {
   updateUser,
   deleteUser,
   mockUsers,
-  generalDataUsers
+  generalDataUsers,
+  searchUsers
 };

@@ -30,6 +30,13 @@ const queryUsers = async (filter, options) => {
   return users;
 };
 
+const searchUsers = async (searchTerm) => {
+  const users = await User.find({
+    $or: [{ name: { $regex: searchTerm, $options: 'i' } }, { email: { $regex: searchTerm, $options: 'i' } }],
+  });
+  return users;
+}
+
 const usersAndConversations = async (email, options) => {
   //console.log('checking for matches in', email);
   const aggregate = User.aggregate([
@@ -209,4 +216,5 @@ module.exports = {
   usersAndConversations,
   createMockUsers,
   generalDataUsers,
+  searchUsers
 };
