@@ -109,9 +109,6 @@ const createMockUsers = () => {
 
 const generalDataUsers = async (options) => {
   const aggregate = User.aggregate([
-    {
-      $match: {},
-    },
     { $addFields: { userId: { $toString: '$_id' } } },
     {
       $lookup: {
